@@ -43,13 +43,12 @@ public class Inter extends HttpServlet {
         HttpUtils httpUtils = new HttpUtils();
 
         String result = "";
-
         try {
-
             HttpURLConnection con = null;
 
-            String url = serverUrl+"snt/"+serverName + MessageUtil.agPath(appID, token);
-
+//            String url = serverUrl+"snt/"+serverName + MessageUtil.agPath(appID, token);
+            String url = serverUrl+serverName;
+            logger.trace("the url : "+url);
             if(HttpUtils.METHOD_GET.equals(method)){
 
                 String dataParams = "";
@@ -63,12 +62,12 @@ public class Inter extends HttpServlet {
 
                     if(dataSet.size() > 0 ){
                         for (String key : dataSet) {
-                            dataParams += "&"+ key + "=" + URLEncoder.encode(paramObject.getString(key),"utf-8");
+                            dataParams +=  key + "=" + URLEncoder.encode(paramObject.getString(key),"utf-8")+"&";
                         }
                     }
                 }
 
-                con = httpUtils.sendRequest(url+dataParams,"",HttpUtils.METHOD_GET);
+                con = httpUtils.sendRequest(url+"?"+dataParams.substring(0,dataParams.length()-1),"",HttpUtils.METHOD_GET);
             }else{
 
                 if(data==null){
